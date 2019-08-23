@@ -1,5 +1,4 @@
 $(function () {
-
   'use strict';
 
   var $distpicker = $('#distpicker');
@@ -35,4 +34,8 @@ $(function () {
     city: '杭州市',
     district: '西湖区'
   });
+
+  $('[data-toggle="tooltip"]').tooltip();
+
+  hljs.initHighlightingOnLoad();
 });

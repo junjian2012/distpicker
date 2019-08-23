@@ -1,12 +1,12 @@
 # Distpicker
 
-[![CDNJS](https://img.shields.io/cdnjs/v/distpicker.svg)](https://cdnjs.com/libraries/distpicker)
+[![Downloads](https://img.shields.io/npm/dm/distpicker.svg)](https://www.npmjs.com/package/distpicker) [![Version](https://img.shields.io/npm/v/distpicker.svg)](https://www.npmjs.com/package/distpicker)
 
 > A simple jQuery plugin for picking provinces, cities and districts of China.
 
 - [Website](https://fengyuanchen.github.io/distpicker)
 
-
+> 请注意以下市/县并未设置下一级的区/乡/镇：济源市、潜江市、神农架林区、天门市、仙桃市、东莞市、中山市、东沙群岛、白沙黎族自治县、保亭黎族苗族自治县、昌江黎族自治县、澄迈县、儋州市、定安县、东方市、乐东黎族自治县、临高县、陵水黎族自治县、琼海市、琼中黎族苗族自治县、屯昌县、万宁市、文昌市、五指山市、嘉峪关市、阿拉尔市、北屯市、可克达拉市、昆玉市、石河子市、双河市、铁门关市、图木舒克市、五家渠市。
 
 ## Table of contents
 
@@ -18,32 +18,23 @@
 - [Browser support](#browser-support)
 - [License](#license)
 
-
-
 ## Main
 
-```
+```text
 dist/
-├── distpicker.js     (98 KB)
-└── distpicker.min.js (71 KB)
+├── distpicker.js        (UMD)
+├── distpicker.min.js    (UMD, compressed)
+├── distpicker.common.js (CommonJS, default)
+└── distpicker.esm.js    (ES Module)
 ```
-
-
 
 ## Getting started
 
+### Install
 
-### Quick start
-
-Four quick start options are available:
-
-- [Download the latest release](https://github.com/fengyuanchen/distpicker/archive/master.zip).
-- Clone the repository: `git clone https://github.com/fengyuanchen/distpicker.git`.
-- Install with [NPM](https://npmjs.com): `npm install distpicker`.
-- Install with [Bower](https://bower.io): `bower install distpicker`.
-
-
-### Installation
+```shell
+npm install distpicker
+```
 
 Include files:
 
@@ -51,7 +42,6 @@ Include files:
 <script src="/path/to/jquery.js"></script><!-- jQuery is required -->
 <script src="/path/to/distpicker.js"></script>
 ```
-
 
 Create HTML elements:
 
@@ -63,12 +53,9 @@ Create HTML elements:
 </div>
 ```
 
-
-
 ### Usage
 
 #### Initialize with `data-toggle="distpicker"` attribute
-
 
 Basic
 
@@ -80,7 +67,6 @@ Basic
 </div>
 ```
 
-
 Custom placeholders
 
 ```html
@@ -91,7 +77,6 @@ Custom placeholders
 </div>
 ```
 
-
 Custom districts
 
 ```html
@@ -101,7 +86,6 @@ Custom districts
   <select data-district="西湖区"></select>
 </div>
 ```
-
 
 #### Initialize with `$.fn.distpicker` method
 
@@ -131,10 +115,7 @@ $('#target').distpicker({
 });
 ```
 
-
 [⬆ back to top](#table-of-contents)
-
-
 
 ## Options
 
@@ -159,7 +140,6 @@ Also supports to set the options by `data-*` attributes:
 
 Selects the districts automatically.
 
-
 ### placeholder
 
 - Type: `Boolean`
@@ -167,17 +147,21 @@ Selects the districts automatically.
 
 Show placeholder (with an `<option>` element).
 
-
 ### valueType
 
 - Type: `String`
-- Oprions:
+- Options:
   - `'name'`: administrative division name.
   - `'code'`: administrative division code.
 - Default: `'name'`
 
 Defines the value type of the `<select>` element.
 
+Note that this option in `data-*` attribute should be `data-value-type`:
+
+```html
+<div data-toggle="distpicker" data-value-type="code">...</div>
+```
 
 ### province
 
@@ -186,14 +170,12 @@ Defines the value type of the `<select>` element.
 
 Defines the initial value of province `<select>`. If it is a valid province, it will be selected. If not, it will be used as a placeholder.
 
-
 ### city
 
 - Type: `String`
 - Default: `—— 市 ——`
 
 Defines the initial value of city `<select>`. If it is a valid city under the selected province, it will be selected. If not, it will be used as a placeholder.
-
 
 ### district
 
@@ -202,10 +184,7 @@ Defines the initial value of city `<select>`. If it is a valid city under the se
 
 Defines the initial value of district `<select>`. If it is a valid district under the selected city, it will be selected. If not, it will be used as a placeholder.
 
-
 [⬆ back to top](#table-of-contents)
-
-
 
 ## Methods
 
@@ -247,10 +226,7 @@ Destroy the distpicker instance, but keep the selected districts.
 
 If you want to remove the selected districts, you can call `reset` method first and then call this method.
 
-
 [⬆ back to top](#table-of-contents)
-
-
 
 ## No conflict
 
@@ -265,8 +241,6 @@ If you have to use other plugin with the same namespace, just call the `$.fn.dis
 </script>
 ```
 
-
-
 ## Browser support
 
 - Chrome (latest)
@@ -278,11 +252,8 @@ If you have to use other plugin with the same namespace, just call the `$.fn.dis
 
 As a jQuery plugin, you also need to see the [jQuery Browser Support](http://jquery.com/browser-support/).
 
-
-
 ## License
 
-[MIT](http://opensource.org/licenses/MIT) © [Fengyuan Chen](http://chenfengyuan.com)
-
+[MIT](https://opensource.org/licenses/MIT) © [Chen Fengyuan](https://chenfengyuan.com)
 
 [⬆ back to top](#table-of-contents)

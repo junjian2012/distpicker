@@ -1,45 +1,54 @@
 const babel = require('rollup-plugin-babel');
+const changeCase = require('change-case');
 const commonjs = require('rollup-plugin-commonjs');
+const createBanner = require('create-banner');
 const nodeResolve = require('rollup-plugin-node-resolve');
 const pkg = require('./package');
 
-const now = new Date();
+const name = changeCase.pascalCase(pkg.name);
+const banner = createBanner({
+  case: 'PascalCase',
+  data: {
+    year: '2014-present',
+  },
+});
 
 module.exports = {
-  entry: 'src/index.js',
-  targets: [
+  input: 'src/index.js',
+  output: [
     {
-      dest: 'dist/distpicker.js',
+      banner,
+      name,
+      file: `dist/${pkg.name}.js`,
+      format: 'umd',
+      globals: {
+        jquery: 'jQuery',
+      },
     },
     {
-      dest: 'docs/js/distpicker.js',
+      banner,
+      file: `dist/${pkg.name}.common.js`,
+      format: 'cjs',
+    },
+    {
+      banner,
+      file: `dist/${pkg.name}.esm.js`,
+      format: 'esm',
+    },
+    {
+      banner,
+      name,
+      file: `docs/js/${pkg.name}.js`,
+      format: 'umd',
+      globals: {
+        jquery: 'jQuery',
+      },
     },
   ],
-  format: 'umd',
-  moduleName: 'Distpicker',
   external: ['jquery'],
-  globals: {
-    jquery: '$',
-  },
   plugins: [
-    babel({
-      exclude: '/node_modules/**',
-    }),
+    nodeResolve(),
     commonjs(),
-    nodeResolve({
-      jsnext: true,
-    }),
+    babel(),
   ],
-  sourceMap: true,
-  banner: `/*!
- * Distpicker v${pkg.version}
- * https://github.com/${pkg.repository}
- *
- * Copyright (c) 2014-${now.getFullYear()} ${pkg.author.name}
- * Released under the ${pkg.license} license
- *
- * Date: ${now.toISOString()}
- */
-
-`,
 };

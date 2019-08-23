@@ -1,45 +1,59 @@
 import $ from 'jquery';
 import Distpicker from './distpicker';
+import {
+  NAMESPACE,
+  WINDOW,
+} from './constants';
 
-const NAMESPACE = 'distpicker';
-const OtherDistpicker = $.fn.distpicker;
+if ($.fn) {
+  const AnotherDistpicker = $.fn.distpicker;
 
-$.fn.distpicker = function jQueryDistpicker(option, ...args) {
-  let result;
+  $.fn.distpicker = function jQueryDistpicker(option, ...args) {
+    let result;
 
-  this.each(function each() {
-    const $this = $(this);
-    let data = $this.data(NAMESPACE);
+    this.each((i, element) => {
+      const $element = $(element);
+      const isDestroy = option === 'destroy';
+      let distpicker = $element.data(NAMESPACE);
 
-    if (!data) {
-      if (/destroy/.test(option)) {
-        return;
+      if (!distpicker) {
+        if (isDestroy) {
+          return;
+        }
+
+        const options = $.extend({}, $element.data(), $.isPlainObject(option) && option);
+
+        distpicker = new Distpicker(element, options);
+        $element.data(NAMESPACE, distpicker);
       }
 
-      const options = $.extend({}, $this.data(), $.isPlainObject(option) && option);
-      $this.data(NAMESPACE, (data = new Distpicker(this, options)));
-    }
+      if (typeof option === 'string') {
+        const fn = distpicker[option];
 
-    if (typeof option === 'string') {
-      const fn = data[option];
+        if ($.isFunction(fn)) {
+          result = fn.apply(distpicker, args);
 
-      if ($.isFunction(fn)) {
-        result = fn.apply(data, args);
+          if (isDestroy) {
+            $element.removeData(NAMESPACE);
+          }
+        }
       }
-    }
+    });
+
+    return typeof result === 'undefined' ? this : result;
+  };
+
+  $.fn.distpicker.Constructor = Distpicker;
+  $.fn.distpicker.setDefaults = Distpicker.setDefaults;
+
+  $.fn.distpicker.noConflict = function noConflict() {
+    $.fn.distpicker = AnotherDistpicker;
+    return this;
+  };
+}
+
+if (WINDOW.document) {
+  $(() => {
+    $(`[data-toggle="${NAMESPACE}"]`).distpicker();
   });
-
-  return typeof result !== 'undefined' ? result : this;
-};
-
-$.fn.distpicker.Constructor = Distpicker;
-$.fn.distpicker.setDefaults = Distpicker.setDefaults;
-
-$.fn.distpicker.noConflict = function noConflict() {
-  $.fn.distpicker = OtherDistpicker;
-  return this;
-};
-
-$(() => {
-  $('[data-toggle="distpicker"]').distpicker();
-});
+}
